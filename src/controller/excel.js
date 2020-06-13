@@ -1,5 +1,7 @@
+const path = require('path');
+
 const getExcel = (req, res, next) => {
-  res.status(200).send('hello world');
+  res.download(path.join(__dirname, '../../uploads', 'excel-database.xlsx'));
 };
 
 const postExcel = (req, res, next) => {
