@@ -1,15 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const multer = require('multer');
-const fs = require('fs');
 const path = require('path');
 
 const excelRoutes = require('./src/routes/excel');
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(multer().single('excel'));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

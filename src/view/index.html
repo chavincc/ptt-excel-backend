@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <form method="POST" action="/excel">
-      <input type="text" />
-      <button type="submit">submit</button>
+    <form method="POST" enctype="multipart/form-data" action="/excel">
+      <input type="file" name="excel" />
+      <button type="submit">upload</button>
     </form>
   </body>
 </html>
