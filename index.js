@@ -7,6 +7,7 @@ const excelRoutes = require('./src/routes/excel');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,9 +27,5 @@ app.get('/', (req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  try {
-    console.log(`server started on port ${PORT}`);
-  } catch (error) {
-    console.log(error);
-  }
+  console.log(`server started on port ${PORT}`);
 });
