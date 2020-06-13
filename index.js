@@ -1,11 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 const excelRoutes = require('./src/routes/excel');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(multer().single('excel'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,7 +23,7 @@ app.use((req, res, next) => {
 
 app.use('/excel', excelRoutes);
 app.get('/', (req, res, next) => {
-  res.send('hello world');
+  res.sendFile(path.join(__dirname, './src/view', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
