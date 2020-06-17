@@ -1,8 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const JWT = require('jsonwebtoken');
+const bcrypt = require('bcryptjs')
+require('dotenv').config();
 
 const excelRoutes = require('./src/routes/excel');
+const authRoutes = require('./src/routes/auth')
 
 const app = express();
 
@@ -20,8 +24,9 @@ app.use((req, res, next) => {
 });
 
 app.use('/excel', excelRoutes);
+app.use('/auth', authRoutes);
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, './src/view', 'index.html'));
+  res.send('ptt excel service server')
 });
 
 const PORT = process.env.PORT || 3000;
