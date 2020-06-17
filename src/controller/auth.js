@@ -15,14 +15,13 @@ const signUp = async (req, res, next) => {
     }
 
     const {email, password} = req.body;
-    console.log(email, password);
     try {
         const createdUser = await database.User.create({
             email,
             password: bcrypt.hashSync(password, 10)
         })
         const token = JWT.sign({id: createdUser._id}, process.env.JWT_SECRET)
-        return res.status(200).cookie('jwt', token).json({email});
+        return res.status(200).cookie('jwt', token, { httpOnly: true }).json({ email });
     } catch (error) {
         return res.json(error)
     }
@@ -32,8 +31,13 @@ const logIn = (req, res, next) => {
     res.status(200).send('log in');
 }
 
+const logOut = (req, res, next) => {
+    res.status(200).clearCookie('jwt').send('log out')
+}
+
 module.exports = {
     getAuth,
     signUp, 
-    logIn
+    logIn,
+    logOut
 }

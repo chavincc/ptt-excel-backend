@@ -1,15 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cookieParser = require('cookie-parser')
 require('dotenv').config();
 
 const excelRoutes = require('./src/routes/excel');
 const authRoutes = require('./src/routes/auth')
+const { protectRoute } = require('./src/middleware/validator/auth')
 
 const app = express();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
@@ -22,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/excel', excelRoutes);
+app.use('/excel', protectRoute, excelRoutes);
 app.use('/auth', authRoutes);
 app.get('/', (req, res, next) => {
   res.send('ptt excel service server')
