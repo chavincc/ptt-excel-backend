@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const JWT = require('jsonwebtoken');
-const bcrypt = require('bcryptjs')
 require('dotenv').config();
 
 const excelRoutes = require('./src/routes/excel');
@@ -10,6 +8,7 @@ const authRoutes = require('./src/routes/auth')
 
 const app = express();
 
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
