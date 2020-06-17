@@ -9,10 +9,10 @@ const getAuth = (req, res, next) => {
 }
 
 const signUp = async (req, res, next) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     return res.status(422).json({ errors: errors.array() })
-    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
 
     const {email, password} = req.body;
     try {
@@ -28,6 +28,7 @@ const signUp = async (req, res, next) => {
 }
 
 const logIn = async (req, res, next) => {
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
     }
@@ -35,14 +36,16 @@ const logIn = async (req, res, next) => {
     try {
         const {email, password} = req.body;
         const user = await database.User.findOne({ email })
-        if (!user || !bcrypt.compareSync(password, user.password))
-            throw new Error();
+        if (!user)            
+            throw new Error('not found');
+        if (!bcrypt.compareSync(password, user.password))
+            throw new Error('wrong password');
         else {
-            const token = JWT.sign({id: createdUser._id}, process.env.JWT_SECRET)
+            const token = JWT.sign({id: user._id}, process.env.JWT_SECRET)
             res.status(200).cookie('jwt', token, { httpOnly: true }).send('log in');
         }
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).json({error})
     }
 }
 

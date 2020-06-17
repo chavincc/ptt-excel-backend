@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { validateSignUp } = require('../middleware/validator/auth')
+const { validateSignUp, validateLogIn } = require('../middleware/validator/auth')
 const { getAuth, signUp, logIn, logOut } = require('../controller/auth')
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get('/', getAuth);
 router.post('/signup', validateSignUp, signUp);
 
 // POST /auth/login/
-router.post('/login', logIn);
+router.post('/login', validateLogIn, logIn);
 
 // GET /auth/logout
 router.get('/logout', logOut)

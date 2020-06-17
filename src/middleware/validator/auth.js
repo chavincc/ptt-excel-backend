@@ -6,6 +6,11 @@ const validateSignUp = [
     check('password').isLength({ min : 8 })
 ]
 
+const validateLogIn = [
+    check('email').not().isEmpty(),
+    check('password').not().isEmpty()
+]
+
 const protectRoute = async (req, res, next) => {
     const token = req.cookies.jwt;
     try {
@@ -19,5 +24,6 @@ const protectRoute = async (req, res, next) => {
 
 module.exports = {
     validateSignUp,
+    validateLogIn,
     protectRoute
 }
