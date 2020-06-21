@@ -1,24 +1,30 @@
-const Mongoose = require('mongoose')
+const Mongoose = require('mongoose');
 
-const DATABASE_URL = process.env.DATABASE_URL
+const DATABASE_URL = process.env.DATABASE_URL;
 
-Mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-Mongoose.set('useCreateIndex', true)
+Mongoose.connect(DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+Mongoose.set('useCreateIndex', true);
 
-const UserSchema = new Mongoose.Schema({
+const UserSchema = new Mongoose.Schema(
+  {
     email: {
-        type: String,
-        unique: true,
-        required: true,
-        lowercase: true,
-        trim: true
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+      trim: true,
     },
     password: {
-        type: String,
-        required: true
-    }
-}, {collection: 'user'})
+      type: String,
+      required: true,
+    },
+  },
+  { collection: 'user' }
+);
 
 module.exports = {
-    User: Mongoose.model("User", UserSchema)
-}
+  User: Mongoose.model('User', UserSchema),
+};
