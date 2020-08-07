@@ -1,8 +1,6 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-require("dotenv").config();
+const express = require('express');
+const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = express();
 
@@ -10,18 +8,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_DOMAIN);
-  res.header("Access-Control-Allow-Credentials", true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE"
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, PATCH, DELETE'
   );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
 
-app.get("/", (req, res, next) => {
-  res.send("ptt construction monitoring REST server");
+app.get('/', (req, res, next) => {
+  res.send('ptt construction monitoring REST server');
 });
 
 const PORT = process.env.PORT || 3000;

@@ -1,11 +1,22 @@
-const Mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const DATABASE_URL = process.env.DATABASE_URL;
+const { ProgressSchema } = require('./models/progress');
 
-Mongoose.connect(DATABASE_URL, {
+const DATABASE_URL = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@devsandbox.zi8eu.mongodb.net/${process.env.MONGO_DATABASE_NAME}?retryWrites=true&w=majority`;
+
+mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-Mongoose.set("useCreateIndex", true);
 
-module.exports = {};
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log(
+    `connected to ${process.env.MONGO_USERNAME} :: ${process.env.MONGO_DATABASE_NAME}`
+  );
+});
+
+module.exports = {
+  Progress: mongoose.model('Progress', ProgressSchema),
+};
