@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
+const { progressRoutes } = require('./routes/progress');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -17,12 +19,18 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/progress', progressRoutes);
 app.get('/', (req, res, next) => {
   res.send('ptt construction monitoring REST server');
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
+
+module.exports = {
+  app,
+  server,
+};
